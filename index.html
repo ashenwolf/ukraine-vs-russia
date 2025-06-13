@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Russia vs Ukraine: True Citizen Well-being</title>
+    <title>Russia vs Ukraine: True Citizen Well-being Candlestick Chart</title>
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://yoursite.com/russia-ukraine-wellbeing-chart">
     <meta property="og:title" content="Russia vs Ukraine: Why GDP per Capita is Misleading">
     <meta property="og:description" content="Interactive candlestick chart reveals the truth: 66% of Russians earn under $415/month while Ukraine's median citizen earns $533. Wealth distribution matters more than GDP averages.">
-    <meta property="og:image" content="chart-preview.png">
+    <meta property="og:image" content="https://yoursite.com/chart-preview.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Candlestick chart showing Russia has extreme wealth inequality while Ukraine has more equal distribution">
@@ -20,7 +20,7 @@
     <meta property="twitter:url" content="https://yoursite.com/russia-ukraine-wellbeing-chart">
     <meta property="twitter:title" content="Russia vs Ukraine: Why GDP per Capita is Misleading">
     <meta property="twitter:description" content="🔍 Interactive data reveals: Most Russians earn less than most Ukrainians despite higher GDP per capita. Oligarch wealth concentration vs. more equal distribution.">
-    <meta property="twitter:image" content="chart-preview.png">
+    <meta property="twitter:image" content="https://yoursite.com/chart-preview.png">
     <meta property="twitter:image:alt" content="Candlestick chart comparing citizen well-being in Russia vs Ukraine">
     
     <!-- LinkedIn -->
@@ -158,16 +158,18 @@
         
         .tooltip {
             position: absolute;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             color: white;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 16px;
+            border-radius: 12px;
             font-size: 12px;
             pointer-events: none;
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 1000;
-            max-width: 250px;
+            max-width: 340px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
         .legend {
@@ -680,18 +682,22 @@
             .on("mouseover", function(event, d) {
                 const explanations = {
                     "Russia": {
-                        high: "Top 10%: Moscow oligarchs, oil barons ($10,000+/month)",
-                        open: "75th percentile: Moscow middle class ($800/month)",
-                        close: "25th percentile: Most Russians earn below this ($415/month)",
-                        low: "Bottom 10%: Rural poverty, pensioners ($150/month)",
-                        summary: "Extreme inequality - oligarchs vs struggling masses"
+                        high: "Top 10% Well-being (90/100): Moscow elite, oligarchs - luxury lifestyle with multiple properties, foreign assets",
+                        open: "75th Percentile (55/100): Upper middle class - mainly Moscow/St. Pete professionals, some comfort but limited mobility",
+                        close: "25th Percentile (35/100): Lower middle class - 66% of Russians earn under $415/month, struggling with basics",
+                        low: "Bottom 10% Well-being (15/100): Rural poverty, pensioners - severe hardship, no opportunities, social exclusion",
+                        summary: "Massive inequality gap - oligarch wealth vs widespread poverty",
+                        gini: "Gini: 0.36 (high inequality)",
+                        median: "Median salary: $415/month"
                     },
                     "Ukraine": {
-                        high: "Top 10%: IT professionals, business owners ($1,500/month)",
-                        open: "75th percentile: Educated professionals ($700/month)", 
-                        close: "25th percentile: Skilled workers ($400/month)",
-                        low: "Bottom 10%: War-affected regions ($200/month)",
-                        summary: "More equal distribution despite war challenges"
+                        high: "Top 10% Well-being (70/100): IT/business professionals - good standard but not extreme wealth, EU-oriented lifestyle",
+                        open: "75th Percentile (60/100): Educated middle class - teachers, engineers, decent living despite war challenges",
+                        close: "25th Percentile (45/100): Working class - median $533/month, better social support than Russian equivalent",
+                        low: "Bottom 10% Well-being (25/100): War-affected regions - displaced persons but community solidarity and aid",
+                        summary: "More equal distribution - smaller gap between rich and poor",
+                        gini: "Gini: 0.26 (lower inequality)",
+                        median: "Median salary: $533/month"
                     }
                 };
 
@@ -699,12 +705,19 @@
                 
                 tooltip.style("opacity", 1)
                     .html(`
-                        <strong>${d.country} Well-being Distribution</strong><br/>
-                        <strong>High (${d.high}):</strong> ${info.high}<br/>
-                        <strong>Open (${d.open}):</strong> ${info.open}<br/>
-                        <strong>Close (${d.close}):</strong> ${info.close}<br/>
-                        <strong>Low (${d.low}):</strong> ${info.low}<br/>
-                        <br/><em>${info.summary}</em>
+                        <div style="border-bottom: 1px solid #666; padding-bottom: 8px; margin-bottom: 8px;">
+                            <strong>${d.country} Citizen Well-being Analysis</strong><br/>
+                            <small>${info.gini} | ${info.median}</small>
+                        </div>
+                        <div style="font-size: 11px; line-height: 1.3;">
+                            <strong>📈 High (${d.high}/100):</strong><br/>${info.high}<br/><br/>
+                            <strong>📊 75th % (${d.open}/100):</strong><br/>${info.open}<br/><br/>
+                            <strong>📊 25th % (${d.close}/100):</strong><br/>${info.close}<br/><br/>
+                            <strong>📉 Low (${d.low}/100):</strong><br/>${info.low}<br/><br/>
+                            <div style="background: rgba(255,255,255,0.1); padding: 6px; border-radius: 4px; margin-top: 8px;">
+                                <strong>💡 Key Insight:</strong><br/>${info.summary}
+                            </div>
+                        </div>
                     `)
                     .style("left", (event.pageX + 10) + "px")
                     .style("top", (event.pageY - 10) + "px");
